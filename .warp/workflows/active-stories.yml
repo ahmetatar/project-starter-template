@@ -1,0 +1,31 @@
+---
+name: Active Stories Dashboard
+description: Show status of all active story branches
+author: ahmet
+tags:
+  - claude-code
+  - status
+  - dashboard
+---
+
+echo "🔍 Scanning active story branches..."
+echo ""
+for branch in $(git branch --list "story/*" | tr -d ' *'); do
+  story_id=$(echo "$branch" | sed 's|story/\(S-[0-9]*\).*|\1|')
+  echo "━━━━━━━━━━━━━━━━━━━━━━━━"
+  echo "🌿 $branch"
+  echo "📌 Last commit: $(git log "$branch" -1 --format='%s (%cr)')"
+  if [ -f "docs/qa/${story_id}"*"-qa-handoff.md" ]; then
+    echo "🔍 QA: handoff exists"
+  else
+    echo "🔍 QA: not yet"
+  fi
+  if [ -f "docs/uat/${story_id}"*"-uat.md" ]; then
+    echo "📱 UAT: file exists"
+  else
+    echo "📱 UAT: not yet"
+  fi
+  echo ""
+done
+echo "━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "✅ Scan complete"

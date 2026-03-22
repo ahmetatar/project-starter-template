@@ -1,0 +1,7 @@
+sessionDefaults:
+  scheme: KitapKurdu
+  projectPath: ./KitapKurdu.xcodeproj
+enabledWorkflows:
+  - simulator
+  - device
+  - project-discovery

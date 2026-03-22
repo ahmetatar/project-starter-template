@@ -1,0 +1,26 @@
+---
+name: Daily Standup
+description: Summarize project status at the start of the day
+author: ahmet
+tags:
+  - claude-code
+  - standup
+  - daily
+---
+
+echo "☀️ Daily Standup — $(date '+%Y-%m-%d %A')"
+echo ""
+echo "📊 Branch status:"
+git branch --list "story/*" | while read -r branch; do
+  branch=$(echo "$branch" | tr -d ' *')
+  echo "  $branch — last commit: $(git log "$branch" -1 --format='%s (%cr)')"
+done
+echo ""
+echo "📝 Last 3 commits (main):"
+git log main -3 --oneline
+echo ""
+echo "🐛 Open issues:"
+ls docs/issues/ 2>/dev/null | head -10 || echo "  (none)"
+echo ""
+echo "━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "💡 For details: claude '/story-status S-XX'"
